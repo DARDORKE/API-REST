@@ -1,0 +1,7 @@
+Dans votre application, créez un endpoint d'API REST permettant de créer une catégorie.
+
+En vous servant de l'exemple sur la création d'un article, créez une URL qui n'accepte que les
+requêtes POST. Créez ensuite un contrôleur, lié à cette URL, qui récupère le contenu de la requête et
+qui crée une catégorie en base de données.
+
+Testez ensuite votre endpoint avec Postman.
