@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,6 +46,65 @@ class CategoryController extends AbstractController
         // un code HTTP 201 et un header indiquant le type de contenu en JSON.
         $response = new Response($json);
         $response->setStatusCode(201);
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    /**
+     * @Route("/categories/{id}", name="delete_category", methods={"DELETE"})
+     */
+    public function deleteCategory(
+        $id,
+        EntityManagerInterface $entityManager,
+        CategoryRepository $categoryRepository,
+    ): Response
+    {
+        $category = $categoryRepository->find($id);
+
+        if (is_null($category)) {
+            throw $this->createNotFoundException('Catégorie non trouvée');
+        }
+
+        $entityManager->remove($category);
+        $entityManager->flush();
+
+        $response = new Response(null);
+        $response->setStatusCode(204);
+
+        return $response;
+    }
+
+    /**
+     * @Route("/categories/{id}", name="update_category", methods={"PUT"})
+     */
+    public function updateCategory(
+        $id,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        SerializerInterface $serializer,
+        CategoryRepository $categoryRepository,
+    ): Response
+    {
+        $category = $categoryRepository->find($id);
+
+        if (is_null($category)) {
+            throw $this->createNotFoundException('Catégorie non trouvée');
+        }
+
+        $data = json_decode($request->getContent(), true);
+
+        $category->setTitle($data['title']);
+        $category->setContent($data['content']);
+        $category->setPublished($data['published']);
+
+        $entityManager->persist($category);
+        $entityManager->flush();
+
+        $json = $serializer->serialize($category, 'json');
+
+        $response = new Response($json);
+        $response->setStatusCode(200);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
