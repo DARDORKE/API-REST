@@ -1,7 +1,10 @@
-Dans votre application, créez un endpoint d'API REST permettant de créer une catégorie.
+Dans votre application, créez deux endpoints d'API REST : le premier permettant de supprimer une catégorie,
+le second permettant de modifier une catégorie en utilisant la méthode PUT.
 
-En vous servant de l'exemple sur la création d'un article, créez une URL qui n'accepte que les
-requêtes POST. Créez ensuite un contrôleur, lié à cette URL, qui récupère le contenu de la requête et
-qui crée une catégorie en base de données.
+En vous servant de l'exemple sur la suppression d'un article, créez une route acceptant les requêtes DELETE,
+liée à un contrôleur, qui supprimera en base de données la catégorie identifiée par l'URL.
 
-Testez ensuite votre endpoint avec Postman.
+En vous servant de l'exemple sur la modification d'un article, créez une route acceptant les requêtes PUT,
+liée à un contrôleur, qui modifiera en base de données la catégorie identifiée par l'URL.
+
+Testez ensuite vos endpoints avec Postman.
